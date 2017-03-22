@@ -14,3 +14,6 @@ It is a Sudoku Handler that should be able to :
 	8. Automatically solve Sudoku (the program)
 	9. Exit
 	
+
+
+** Being translated at the moment
