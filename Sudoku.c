@@ -162,7 +162,7 @@ void load_Sudoku(char Sudoku[])
         scanf("%s",&filename);
         strcat(fullname,filename);
         strcat(fullname,".sud");
-        file=fopen(fullname,"r"); //to anoigw sthn arxh prosorina me morfh "r" wste ama uparxei kai de mou gurisei "NULL" na rwthsw to Xrhsth ama 8elei na kanei overwrite
+        file=fopen(fullname,"r"); //checking if file already exists
         if(file!=NULL)
         {
             fclose(file);
@@ -174,7 +174,7 @@ void load_Sudoku(char Sudoku[])
                 flag=1;
             }
         }
-    }while(flag); // h epanalhpsh ginetai mexri na parw arxeio pou den uparxei h mexri na dextei o xrhsths na kanei overwrite sto arxeio pou dialekse
+    }while(flag); // loopipng until user chooses to overide file or to give a new name
     file=fopen(fullname,"w+");
     for(i=0;i<90;i++)
     {
@@ -200,18 +200,19 @@ void load_Sudoku(char Sudoku[])
      }
  }
 
- void hand_create_Sudoku(char Sudoku[]) //Ayth h synarthsh ulopoiei th leitourgia "Xeirokinhth dhmiourgia Sudoku"
+// This function implements lets the user to give a Sudoku table by command line
+ void hand_create_Sudoku(char Sudoku[]) 
  {
      int i,j;
-     char line[20];  //O prosorinos pinakas ston opoio apo8hkeuontai oi "seires" pou dinei o Xrhsths me peri8orio la8ous 10 xarakthrwn (parapanw kata thn eisagwgh)
+     char line[20];  // temporary table that stores raws given by user
      char error;
-     erase_Sudoku(Sudoku); //Ka8arizw - Arxikopoiw ton pinaka Sudoku
+     erase_Sudoku(Sudoku); // To begin with I clear my Sudoku table
      for(i=0;i<9;i++)
      {
          error=0;
          do
          {
-             //ksanaka8arizw th seira se periptwsh pou molis edwse o xrhsths seira pou dhmiourgei provlhma me ta prohgoumena kelia h metaksu ths.
+             // In case of Sudoku rule violation I clear the raw
              for(j=0;j<9;j++)
              {
                  Sudoku[i*10 + j]='0';
@@ -220,18 +221,18 @@ void load_Sudoku(char Sudoku[])
              print_Sudoku(Sudoku);
              if(error)
              {
-                 printf("Parousiasthke la8os kata thn eisagwgh ths teleutaias grammhs!\n");
+                 printf("There was a Sudoku violation in the last raw that was inserted.\n");
              }
              error=0;
-             printf("Parakalw eisagetai thn %dh seira sunexomena me to '0' na antiproswpeuei to keno\n",i+1);
+             printf("Please insert again the %dth raw, the numbers sould be inserted continuously.\nNote that 0 represents ' ' (Space).",i+1);
              fflush(stdin);
              scanf("%s",&line);
-             //elenxw gia sunolo pshfiwn pou edwse o xrhsths
+             //checking the total nuber of given digits
              if(strlen(line)!=9)
              {
                  error=1;
              }
-             //ama den uparxei hdh kapoio la8os , elenxw ama o xrhsths exei dwsei xarakthra ektos twn 10 ari8mwn
+             //checking if any character was given
              j=0;
              while(j<9 && !error)
              {
@@ -241,7 +242,7 @@ void load_Sudoku(char Sudoku[])
                  }
                  j++;
              }
-             //gia ka8e mh keno keli ths seiras auths, to pernaw ston pinaka Sudoku kai elengxw gia provlhmata me ton hdh uparxon pinaka
+             //checking all non-empty cells for Sudoku violations
              j=0;
              while(j<9 && !error)
              {
