@@ -492,16 +492,16 @@ void load_Sudoku(char Sudoku[])
  void auto_create_Sudoku(char Sudoku[])
  {
      char counter=0,num,i,j,sum,error=0;
-     //rwtaw to xrhsth posa koutakia 8elei na dinontai, mexri na parw egkuro ari8mo
+     //I ask the user the number of digits he wants to be given, until I get a valid answer
      do
      {
         system("cls");
         if(error)
         {
-            printf("Dwsate ari8mo ektos pediou.\n");
+            printf("You inserted invalid answer.\n");
         }
         error=0;
-        printf("Dwste ton ari8mo twn keliwn pou 8a dinontai (0-81)\n");
+        printf("Insert the number of digits you want to be ginen? (0-81)\n");
         fflush(stdin);
         scanf("%d",&sum);
         if(sum>81 || sum<0)
@@ -509,10 +509,10 @@ void load_Sudoku(char Sudoku[])
             error=1;
         }
      }while(error);
-     //meta ka8arizw - arxikopoiw to Sudoku kai sth 8esh tou dhmiourgw kainourgio.
+     //I clear current Sudoku and I create a new one
      erase_Sudoku(Sudoku);
      srand(time(NULL) + rand());
-     //sxediazw thn prwth grammh kai meta se sxesh me ayth sxediazw tis alles
+     //I create randomly the first raw.
      do
      {
          num=rand() %9 + 49;
@@ -522,7 +522,7 @@ void load_Sudoku(char Sudoku[])
              counter++;
          }
      }while(counter<9);
-     //twra se sxesh me auth 8a sxediasw tis alles, h num pleon 8a deixnei poses 8eseis 8a metatopistei h prwth seira wste na dhmiourghsei tis alles
+     // the next raws are formen by transpositioning the first raw
      for(i=1;i<9;i++)
      {
          switch (i)
@@ -568,17 +568,17 @@ void load_Sudoku(char Sudoku[])
                  break;
              }
          }
-         //vazw thn prwth seira metatopismenh (peristrofika) kata "num"
+         // Filling next raw by transpositioning first raw digits by "num" cells
          for(j=0;j<9;j++)
          {
              Sudoku[i*10 + (j+num)%9]=Sudoku[j];
          }
      }
-     // epeita kruvw arketa koutakia mexri na fainontai mono osa epelekse o xrhsths
+     // I erase cells until the number of cells filled is equal to the number asked by the user
      counter=0;
      while(81-sum>counter)
      {
-         // to num edw antiprosopeuei th 8esh ston pinaka se sxesh me tis 81 sunlonika , i-> raw , j -> col .
+         // num represents the number of cell, out of 81 (total cells) , i-> raw , j -> col .
          num=rand()%81;
          i=num/9;
          j=num%9;
@@ -588,7 +588,7 @@ void load_Sudoku(char Sudoku[])
              counter++;
          }
      }
-     printf("To Sudoku pou molis dhmiourgh8hke einai fortwmeno kai einai auto:\n");
+     printf("The Sudoku has been created :\n");
      print_Sudoku(Sudoku);
      system("pause");
      system("cls");
