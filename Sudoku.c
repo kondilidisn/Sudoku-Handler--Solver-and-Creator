@@ -166,10 +166,10 @@ void load_Sudoku(char Sudoku[])
         if(file!=NULL)
         {
             fclose(file);
-            printf("File %s already exists, do you want to replace it?\nIf so, press 'N', in any other case, you will be asced for a new name.\n",filename);
+            printf("File %s already exists, do you want to replace it?\nIf so, press 'y' or 'Y', in any other case, you will be asced for a new name.\n",filename);
             fflush(stdin);
             scanf("%c",&answer);
-            if(answer!='n' && answer!='N')
+            if(answer!='y' && answer!='Y')
             {
                 flag=1;
             }
@@ -212,7 +212,7 @@ void load_Sudoku(char Sudoku[])
          error=0;
          do
          {
-             // In case of Sudoku rule violation I clear the raw
+             // In case of Sudoku rule violation, I clear the raw
              for(j=0;j<9;j++)
              {
                  Sudoku[i*10 + j]='0';
@@ -258,32 +258,33 @@ void load_Sudoku(char Sudoku[])
              }
          }while(error);
      }
-     printf("To Sudoku dhmiourgh8hke epituxws kai einai twra fortwmeno.\n");
+     printf("Sudoku was succesfully inserted.\nIt will be now used as current.\n");
      system("pause");
      system("cls");
  }
 
- void handle_Sudoku(char Sudoku[]) // Ayth h synarthsh ylopoiei th leitourgia "Tropopoihsh Sudoku".
+// This function implements "Modify Sudoku" function
+ void handle_Sudoku(char Sudoku[])
  {
      char col,raw,num,i,j,error1,error2,answer;
      char temp_Sudoku[91];
      copy_Sudoku(temp_Sudoku,Sudoku);
-     //oso o xrhsths epilegei na allaksei kai allo koutaki
+     //while user chooses to modify another cell :
      do
      {
          error1=0;
-         //elegxos gia egkurh eisagwgh dedomenwn
+         //checking for valid insertion
          do
          {
              system("cls");
              print_Sudoku(temp_Sudoku);
              if(error1)
              {
-                 printf("Ta dedomena pou dwsate den htan egkura, parakalw ksanadwste ta dedomena\nSteiles kai grammes (1-9) kai numera (0-9)\n");
+                 printf("The parameters you enter are invalid, please insert again.\nRaws and Columns between (1-9), but Numbers between (0-9)\n");
              }
              error1=0;
              fflush(stdin);
-             printf("Parakalw eisagetai me th seira: th grammh , th sthlh kai sto telos to numero\n gia paradeigma pathste : '9 8 1'\nTo opoio einai: sthn 9h grammh kai 8h sthlh vale to 1.\n");
+             printf("Please insert specify the cell you want to modify.\nGive the number of raw, the number of column and the number to be inserted IN THAT ORDER\nFor example insert: '9 8 1'\nif you want to enter number 1 in the 9th raw and 8th column.\n");
              scanf("%d %d %c",&raw,&col,&num);
              if(raw>9 || raw<1 || col>9 || col<1 || num>'9' || num<'0')
              {
@@ -293,11 +294,11 @@ void load_Sudoku(char Sudoku[])
       temp_Sudoku[(raw-1)*10+col-1]=num;
       system("cls");
       print_Sudoku(temp_Sudoku);
-      printf("8elete na allaksete kai allo koutaki?\nPathste 'n' h 'N' gia nai alliws otidhpote allo\n");
+      printf("Do you want to modify another cell?\nPress 'y' or 'Y' if so.\n");
       fflush(stdin);
       scanf("%c",&answer);
-     }while(answer=='n' || answer=='N');
-     // meta elenxw ama uparxoun ston teliko pinaka Sudoku provlhmata (se opoiodhpote keli tou)
+     }while(answer=='y' || answer=='Y');
+     // After that I check for Sudoku violation in the whole Sudoku table
      error1=0;
      i=0;
      do
@@ -315,31 +316,32 @@ void load_Sudoku(char Sudoku[])
          }
          i++;
      }while(i<9 && !error1);
-     // Ama uaprxei estw kai ena provlhma, dinw ston Xrhsth thn eukairia na krathsei fortwmeno ton arxiko pinaka Sudoku pou eixe
+     // If there is an error or more, I ask the user whether he/she wants to keep the initial Sudoku table
      answer='o';
      if(error1)
      {
          print_Sudoku(temp_Sudoku);
-         printf("To Sudoku opws to exete epireasei exei toulaxiston 1 provlhma\nsto shmeio me suntetagmenes:\ngrammh:%d\nsthlh:%d\n8elete na krathsetai to palio h oxi?\nPathste 'n' h 'N' gia na krathsete to palio \nh otidhpote allo gia na sunexisete me auto fortwmeno.\n",raw,col);
+         printf("Current Sudoku has at least one error in the cell with coordinates:\nraw:%d\ncolumn:%d\nDo you want to keep the Sudoku as it was before the modifications?\nPress 'y' h 'Y' to keep the old one or anything else to keep current.\n",raw,col);
          fflush(stdin);
          scanf("%c",&answer);
      }
-     if(answer!='n' && answer!='N')
+     if(answer!='y' && answer!='Y')
      {
          copy_Sudoku(Sudoku,temp_Sudoku);
-         printf("Antikatasthsate to palio me epituxia.\n");
+         printf("You succesfully replaced the old Sudoku.\n");
      }
      else
      {
-         printf("Epileksate na krathsete to palio Sudoku anepireasto.\n");
+         printf("You chose to keep the old Sudoku.\n");
      }
  }
 
- void hand_solve_Sudoku(char Sudoku[])// Ayth h synarthsh ylopoiei th leitourgia "Xeirokinhth epilush Sudoku"
+// This function implements the "Solve Sudoku (By the user)" function
+ void hand_solve_Sudoku(char Sudoku[])
  {
      char col=0,raw=0,num,answerc,error1,error2,num_of_0;
      num_of_0=0;
-     //elenxw ama o pinakas einai gematos
+     //checking if table is full
      do
      {
          do
@@ -352,14 +354,14 @@ void load_Sudoku(char Sudoku[])
          }while(col<9 && num_of_0==0);
          raw++;
      }while(raw<9 && num_of_0==0);
-     //Ama den einai gematos
+     //If it is not full
      if(num_of_0!=0)
      {
          do
          {
              error1=0;
              error2=0;
-             //elegxos eisodou kenou keliou
+             //checking whether the user tries to alter already filled cell
              do
              {
                  system("cls");
@@ -368,17 +370,17 @@ void load_Sudoku(char Sudoku[])
                      printf("To pedio pou dialeksate den einai adeio...\nParakalw ksanadialekste pedio\n");
                  }
                  error2=0;
-                 //elegxos gia egkurh eisagwgh dedomenwn
+                 //checking for correct input
                  do
                  {
                      system("cls");
                      print_Sudoku(Sudoku);
                      if(error1)
                      {
-                         printf("Ta dedomena pou dwsate den htan egkura, parakalw ksanadwste ta dedomena\nGrammh h sthlh (1-9).\n");
+                         printf("The parameters you inserted are invalid, please insert again raw or column (1-9).\n");
                      }
                      error1=0;
-                     printf("Parakalw eisagete me th seira: th grammh kai th sthlh\n");
+                     printf("Please insert raw and column number");
                      fflush(stdin);
                      scanf("%d %d",&raw,&col);
                      if(raw>9 || raw<1 || col>9 || col<1)
@@ -392,7 +394,7 @@ void load_Sudoku(char Sudoku[])
                      error2=1;
                  }
              }while(error2);
-             //twra pou katastalaksame se pedio mporei na to alaksei oses fores 8elei
+             //now that the cell is specified he can make as many changes as he/she wants
              do
              {
                  error2=0;
@@ -402,11 +404,11 @@ void load_Sudoku(char Sudoku[])
                      print_Sudoku(Sudoku);
                      if(error2)
                      {
-                         printf("Paraklaw plhktrologhste enan ari8mo anamesa sto 0 kai to 9\n");
+                         printf("Please insert a number between 0 and 9!\n");
                      }
                      error2=0;
                      fflush(stdin);
-                     printf("Parakalw pathste to numero pou 8elete na eisagete sto pedio:%d,%d\n",raw,col);
+                     printf("Please insert the number to be inserted in the cell with coordinates:%d,%d\n",raw,col);
                      scanf("%c",&num);
                      system("pause");
                      system("cls");
@@ -417,10 +419,10 @@ void load_Sudoku(char Sudoku[])
                  }while(error2);
              Sudoku[(raw-1)*10 +col-1]=num;
              print_Sudoku(Sudoku);
-             printf("To numero pou molis valate sthn grammh:%d kai sthlh:%d einai entaksei h 8elete na to allaksete?\nPathste 'n' h 'N' ama einai entaksei kai o,tidhpote allo gia na to allaksete\n",raw,col);
+             printf("Are you pleased with the number you inerted in the raw:%d and column:%d\nor you want to change it?\nPress 'y' or 'Y' if it is ok, or anything else to modify it.\n",raw,col);
              fflush(stdin);
              scanf("%c",&answerc);
-             }while(answerc!='n' && answerc!='N');
+             }while(answerc!='y' && answerc!='Y');
              num_of_0=0;
              raw=0;
              do
@@ -436,24 +438,24 @@ void load_Sudoku(char Sudoku[])
                  }while(col<9 && num_of_0==0);
                  raw++;
              }while(raw<9 && num_of_0==0);
-             //ama einai gemato to sudoku to num_of_0 8a teleiwsei tis epanalhpseis me timh 0
+             //num_of_0 is a counter of empty cells
              system("cls");
              answerc='o';
-             //ama den einai gemato rwtaw ton Xrhsth ama 8elei na valei kai allo koutaki
+             //In case there are empty cells left, I ask the user if he wants to insert another digit
              if(num_of_0!=0)
              {
                  fflush(stdin);
                  print_Sudoku(Sudoku);
-                 printf("8elete na eisagete allo numero?\nPathste 'n' h 'N' gia na eisagetai kai allo numero kai o,tidhpote allo gia na stamathsete\n");
+                 printf("Do you want to insert another digit?\nPress 'y' or 'Y' if so, or anything else to stop.\n");
                  scanf("%c",&answerc);
              }
-         }while(num_of_0!=0 && answerc!='n' && answerc!='N');
+         }while(num_of_0!=0 && answerc!='y' && answerc!='Y');
      }
-     //ama einai gemato
+     //If there are no other cells
      if(num_of_0==0)
      {
          error1=1;
-         //to error1 8a krathsei alh8h timh oso den uparxei la8os sto Sudoku
+         //error1 will remain true as long as there are no errors in the table
          raw=0;
          while(raw<9 && error1)
          {
@@ -469,24 +471,25 @@ void load_Sudoku(char Sudoku[])
              raw++;
          }
      }
-     //ara edw to error1 einai alh8es ama to Sudoku den exei la8h
+     //If at this point error1 is true, then there are no errors in the table
      print_Sudoku(Sudoku);
      if(num_of_0==0 && error1)
      {
-         printf("Sugxarhthria !!! Lusate to Sudoku !!! \n");
+         printf("Congratulations !! You solved the SUDOKU !!! \n");
      }
      else
      {
          if(num_of_0==0 && !error1)
          {
-             printf("To Sudoku einai gemato alla periexei la8h!!!\nGia na dior8wsete ena la8os prepei na pate sth leitourgia '6' tou menu\npou grafei 'Tropopoihsh Sudoku' kai na to allaksete apo ekei.\n");
+             printf("Though the table contains no empty cells, there are errors.\nIn order to modify the table, go to option 6. of the menu.\n");
          }
      }
      system("pause");
      system("cls");
  }
 
- void auto_create_Sudoku(char Sudoku[])// Ayth h synarthsh ylopoiei th leitourgia aytomaths dhmiourgias Sudoku
+// This function implements the Automatic creation of a Sudoku table
+ void auto_create_Sudoku(char Sudoku[])
  {
      char counter=0,num,i,j,sum,error=0;
      //rwtaw to xrhsth posa koutakia 8elei na dinontai, mexri na parw egkuro ari8mo
