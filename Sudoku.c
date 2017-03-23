@@ -594,9 +594,12 @@ void load_Sudoku(char Sudoku[])
      system("cls");
  }
 
- char solve(char Sudoku[],char temp_Sudoku[], char solved_Sudoku[], char position) //Ayth h anadromikh sunarthsh einai boh8htikh ths auto_solve
+ char solve(char Sudoku[],char temp_Sudoku[], char solved_Sudoku[], char position) //This recursive function assists auto_solve function
 {
-    // O pinakas Sudoku den allazei pou8ena, alla mesw autou elenxwoume an mporoume na peiraksoume ena koutaki ston temp_Sudoku.
+    // We check if we can try values to a cell, if it is empty on the initial table, which is Sudoku array.
+    // We do not change this array at any point
+    // All changes and 
+  
     // O temp_Sudoku krataei oles tis dokimes pou kanoume (dhladh panw se auton prospa8oume na lusoume to Sudoku)
     // O ston pinaka solved_Solved antigrafetai olos o temp_Sudoku otan exei katalhksei se lush.
     // h logikh auth ths sunarthshs einai : oso uparxoun koutakia pou mporoun na paroun mono 1 numero valto kai ksanaelenkse an uparxoun kai alla.
