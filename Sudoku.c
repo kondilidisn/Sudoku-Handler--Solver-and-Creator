@@ -598,30 +598,28 @@ void load_Sudoku(char Sudoku[])
 {
     // We check if we can try values to a cell, if it is empty on the initial table, which is Sudoku array.
     // We do not change this array at any point
-    // All changes and 
+    // All attempts are made on temp_Sudoku array
+    // If Sudoku is solved the solution is stored in array solved_Solved
   
-    // O temp_Sudoku krataei oles tis dokimes pou kanoume (dhladh panw se auton prospa8oume na lusoume to Sudoku)
-    // O ston pinaka solved_Solved antigrafetai olos o temp_Sudoku otan exei katalhksei se lush.
-    // h logikh auth ths sunarthshs einai : oso uparxoun koutakia pou mporoun na paroun mono 1 numero valto kai ksanaelenkse an uparxoun kai alla.
-    // alliws den uparxoun koutakia me monadikh pi8anh timh.
-    // opote kanoume mia upo8esh (estw oti edw einai to "tuxaio numero" kai sunexizoume thn epilush me vash auth thn upo8esh.
-    // h ulopoihsh auth ths logikhs ths upo8eshs ginetai mesw ths anadromhs (otan teleiwsoun oi ekteleseis twn YPO-kaloumenwn anadromwn tote h upo8esh einai atoph)
-    // ama katalhksei se atopo gurname mia anadromh pisw (giati exoun teleiwsei oi dunates time pou mporei na parei auto to koutaki).
+  // logic of this function:
+      //- while a cell can take only one specific digit (due to Sudoku rules) I put the digit and check again for more cells
+      //- if there are no cell that can take only one digit, the we start making assumptions and we continue by them recursively
+      //- if a cell can not take any digit, then we return.
     char num,counter1,counter2,i,temp_num;
-    //ama exei ftaseis to koutaki 89 tote exei teleiwsei th diasxush tou Sudoku.
+    // if the pointer position is equal to 89 then the final cell has been reached
     if(position==89)
     {
          copy_Sudoku(solved_Sudoku,temp_Sudoku);
          return 0;
     }
-    // ama exei pesei panw se '\n' giati ta exw mesa ston pinaka sthn 10h 8esh ka8e seiras , na proxwrhsei koutaki.
+    // if the pointer position shows on a '\n' character the I continue recursivly with the next position of the table
     if(position%10==9)
     {
          return solve(Sudoku, temp_Sudoku, solved_Sudoku, position + 1);
     }
     else
     {
-        // oso to counter den menei 0 paei na pei oti uparxoun koutakia pou mporoun na paroun monadikh timh
+        // counter1 shows the number of cells that can take only one digit
         do
         {
             counter1=0;
@@ -632,7 +630,8 @@ void load_Sudoku(char Sudoku[])
                 {
                     i++;
                 }
-                //gia ka8e koutaki pou mporw na peiraksw kai den tou exw dwsei hdh timh elenxw an mporei na parei monadikh timh
+                // 
+                // gia ka8e koutaki pou mporw na peiraksw kai den tou exw dwsei hdh timh elenxw an mporei na parei monadikh timh
                 if(temp_Sudoku[i]=='0')
                 {
                     num='1';
