@@ -630,8 +630,7 @@ void load_Sudoku(char Sudoku[])
                 {
                     i++;
                 }
-                // 
-                // gia ka8e koutaki pou mporw na peiraksw kai den tou exw dwsei hdh timh elenxw an mporei na parei monadikh timh
+                // for every cell I havn't entered any digit, I check if the cell can take only one digit
                 if(temp_Sudoku[i]=='0')
                 {
                     num='1';
@@ -645,14 +644,15 @@ void load_Sudoku(char Sudoku[])
                         }
                         num++;
                     }while(num<='9' && counter2<2);
-                    if(counter2==1) // ama mporei na parei monadikh timh tou thn dinw
+                 // if only one digit can be inserted then I insert it
+                    if(counter2==1)
                     {
                         temp_Sudoku[i]=temp_num;
                         counter1++;
                     }
                     else
                     {
-                        //alliws ama den mporei na parei kamia timh tote dior8wnw o,ti exw allaksei me vash ton arxiko pinaka Sudoku kai epistrefw apo thn teleutaia upo8esh
+                        //In case the cell cannot take any digits, I return to the previous assamption, reversing any inbetween changes
                         if(counter2==0)
                         {
                             for(i=position;i<89;i++)
@@ -661,14 +661,14 @@ void load_Sudoku(char Sudoku[])
                             }
                             return 1;
                         }
-                        //ama omws mporei apla na parei polles times to afhnw mhden kai synexizw gia na kanw mia upo8esh
+                        // In case there can be inserted many values, I leave it empty for now
                         temp_Sudoku[i]='0';
                     }
                 }
             }
         }while(counter1!=0);
-        // ama to counter ginei 0 tote prepei na kanoume mia upo8esh gia na sunexisoume
-        // elenxw an ama mporw na peiraksw to koutaki opote to elenxw me to arxiko
+        // when counter1 is equal to 0, we have to make an assumption to move on
+        // checking initial Sudoku table in order to make sure that I can modify the cell's value
         if(Sudoku[position]=='0')
         {
             for (num = '1'; num <= '9'; num++)
@@ -676,11 +676,11 @@ void load_Sudoku(char Sudoku[])
                  temp_Sudoku[position] = num;
                  if (!box_has_error(temp_Sudoku,position))
                  {
-                     //ama exw mpei edw tote dokimazw poio numero mporei na parei auto to koutaki kai gia ka8e pi8ano numero arxizw tis upo8eseis.
+                     // making assumptions recursively
                      solve(Sudoku, temp_Sudoku, solved_Sudoku, position + 1);
                  }
-                 //ama bgw apo edw h exoun ginei oles oi upo8esei la8os h to sudoku exei lu8ei kai apla gunraw sthn arxikh mou anadromh.
-                 //outws h allws, allazw o,ti allages exw kanei ston temp_Sudoku apo to position kai pera gia na eimai kalumenos sthn periptwsh la8ous kai epistrefw.
+                 //At this point, either all assumptions that have been made, for this position, are wrong, or the sudoku has been solved
+                 // One way or another, I revert all changes l have made after this position
             }
             for(i=position;i<89;i++)
             {
@@ -690,9 +690,9 @@ void load_Sudoku(char Sudoku[])
         }
         else
         {
-            //ama eimai egw tote to koutaki den einai '0' ston arxiko pinaka Sudoku kai tote apla proxwraw
+            // At this point, this cell already has value so I continue to next position
             solve(Sudoku, temp_Sudoku, solved_Sudoku, position + 1);
-            //ama gurnaei kai apo autes tis periptwseis pali allazw o,ti exei ginei apo to position kai pera
+            // At this point, the above assumption has failed so I revert all changes after this position
             for(i=position;i<89;i++)
             {
                 temp_Sudoku[i]=Sudoku[i];
@@ -702,16 +702,19 @@ void load_Sudoku(char Sudoku[])
     }
 }
 
- void auto_solve_Sudoku(char Sudoku[]) // Ayth h synarthsh ylopoiei thn leitourgia ths automaths epilushs
+ // This function implements Automatic Sudoku Solving
+ void auto_solve_Sudoku(char Sudoku[])
  {
-     char temp_Sudoku[91],solved_Sudoku[91];//voh8htikoi pinakes gia thn lush kai thn apo8hkeush tou lumenou Sudoku
+     // assisting variables
+     char temp_Sudoku[91],solved_Sudoku[91];
      char error;
 
     erase_Sudoku(solved_Sudoku);
     copy_Sudoku(temp_Sudoku,Sudoku);
-    printf("Parakalw perimenete oso to programma epiluei to Sudoku.\nAuto mporei na parei liga lepta...\n");
+    printf("Please wait while the program is solving the Sudoku .\nThis may take a few minutes...\n");
     solve(Sudoku,temp_Sudoku,solved_Sudoku,0);
     error=0;
+    // 
     // o idios elenxos me to an o pinakas solved_Sudoku exei meinei adeios, ara den lu8hke to Sudoku.
     if(solved_Sudoku[0]=='0')
     {
