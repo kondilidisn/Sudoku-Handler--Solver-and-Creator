@@ -27,6 +27,7 @@ int show_menu()
      return answer;
  }
 
+
 // This function implements a copy of "strcpy" function
  void copy_Sudoku(char to_Sudoku[], char from_Sudoku[])
  {
@@ -154,6 +155,15 @@ void load_Sudoku(char Sudoku[])
     char answer;
     char flag;
     FILE *file;
+
+    //creating folder in order to be sure that exists
+    #ifdef __linux__
+        mkdir("sudoku_samples", 777);
+    #else
+        _mkdir("sudoku_samples");
+    #endif
+
+
     do{
         flag=0;
         strcpy(fullname,"sudoku_samples/");
@@ -202,7 +212,7 @@ void load_Sudoku(char Sudoku[])
  }
 
 // This function implements lets the user to give a Sudoku table by command line
- void hand_create_Sudoku(char Sudoku[]) 
+ void hand_create_Sudoku(char Sudoku[])
  {
      int i,j;
      char line[20];  // temporary table that stores raws given by user
@@ -601,7 +611,7 @@ void load_Sudoku(char Sudoku[])
     // We do not change this array at any point
     // All attempts are made on temp_Sudoku array
     // If Sudoku is solved the solution is stored in array solved_Solved
-  
+
   // logic of this function:
       //- while a cell can take only one specific digit (due to Sudoku rules) I put the digit and check again for more cells
       //- if there are no cell that can take only one digit, the we start making assumptions and we continue by them recursively
@@ -715,7 +725,7 @@ void load_Sudoku(char Sudoku[])
     printf("Please wait while the program is solving the Sudoku .\nThis may take a few minutes...\n");
     solve(Sudoku,temp_Sudoku,solved_Sudoku,0);
     error=0;
-    // 
+    //
     // Checking if there are empty cells
     if(solved_Sudoku[0]=='0')
     {
