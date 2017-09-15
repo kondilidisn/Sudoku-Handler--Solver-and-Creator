@@ -715,12 +715,12 @@ void load_Sudoku(char Sudoku[])
     solve(Sudoku,temp_Sudoku,solved_Sudoku,0);
     error=0;
     // 
-    // o idios elenxos me to an o pinakas solved_Sudoku exei meinei adeios, ara den lu8hke to Sudoku.
+    // Checking if there are empty cells
     if(solved_Sudoku[0]=='0')
     {
         error=1;
     }
-    // epeita apla tupwnw mhnymata enhmerwshs.
+    // printing update messages
     if(error)
     {
         printf("The loaded Sudoku cannot be solved...\nPlease load another and continue or modify.\n");
