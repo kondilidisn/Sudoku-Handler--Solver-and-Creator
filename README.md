@@ -1,7 +1,7 @@
 # Sudoku-Handler--Solver-and-Creator
 Handler, Solver and Creator for the Famus Sudoku Game
 
-This project was developed for a school lesson in which we learned C programming language.
+This project was developed during a bachelor's course in which we learned C programming language.
 
 It is a Sudoku Handler that should be able to :
 	1. Load Sudoku table from file 
@@ -13,7 +13,3 @@ It is a Sudoku Handler that should be able to :
 	7. Manually solve Sudoku (the user)
 	8. Automatically solve Sudoku (the program)
 	9. Exit
-	
-
-
-** Being translated at the moment
