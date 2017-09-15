@@ -140,7 +140,7 @@ void load_Sudoku(char Sudoku[])
         fscanf(file,"%c",&Sudoku[i]);
     }
     fclose(file);
-    printf("The file : %s was loaded succesfully\n",filename);
+    printf("The file : %s has been loaded succesfully!\n",filename);
     system("pause");
     system("cls");
 }
@@ -723,20 +723,20 @@ void load_Sudoku(char Sudoku[])
     // epeita apla tupwnw mhnymata enhmerwshs.
     if(error)
     {
-        printf("To Sudoku pou htan fortwmeno den einai epilusimo...\nParakalw fortwste kai sunexiste me allo h elenkste to xeirokinhta.\n");
+        printf("The loaded Sudoku cannot be solved...\nPlease load another and continue or modify.\n");
     }
     else
     {
         copy_Sudoku(Sudoku,solved_Sudoku);
         print_Sudoku(Sudoku);
-        printf("To lumeno Sudoku einai twra fortwmeno.\nDhladh 8a xeirizeste auto mexri na fortwsete allo apo to menu.\n");
+        printf("Solved Sudoku is now Loaded!.\n");
     }
     system("pause");
  }
 
 int main()
 {
-    char Sudoku[91]; // pinakas pou antiprosopeuei to sudoku
+    char Sudoku[91]; // Sudoku array
     char answer,is_saved=1,is_empty=1;
     do
     {
@@ -747,12 +747,12 @@ int main()
             {
                 if(!is_saved)
                 {
-                    printf("Yparxei kapoio fortwmeno Sudoku.\n8elete na to svhsete kai na fortwsetai allo?.\nPathste 'n' h 'N' gia nai kai o,tidhpote allo gia oxi\n");
+                    printf("There is a loaded Sudoku.\nDo you want to replace it?.\nInsert 'y' or 'Y' for yes and anything else for no.\n");
                     fflush(stdin);
                     scanf("%c",&answer);
-                    if(answer=='n' || answer=='N')
+                    if(answer=='y' || answer=='Y')
                     {
-                        printf("Auto pou htan fortwmeno 8a svhstei kai 8a fortw8ei allo");
+                        printf("Loaded Sudoku will be deleted");
                         load_Sudoku(Sudoku);
                         is_saved=1;
                         is_empty=0;
@@ -771,7 +771,7 @@ int main()
             {
                 if(is_empty)
                 {
-                    printf("Den uparxei kapoio fortwmeno Sudoku.\nParakalw fortwste ena prwta kai meta apo8hkeuste to.\n");
+                    printf("There is no loaded Sudoku\nTry to load a Sudoku in order to save it later\n");
                     system("pause");
                     system("cls");
                 }
@@ -792,19 +792,19 @@ int main()
                 }
                 else
                 {
-                    printf("To Sudoku pou einai fortwmeno den einai apo8hkeuumeno.\nPathste 'n' h 'N' gia na to svhsete kai otidhpote allo\ngia na to akurwsete.\n");
+                    printf("Loaded Sudoku is not saved!.\nDo you want to replace it?.\nInsert 'y' or 'Y' for yes and anything else for no.\n");
                     fflush(stdin);
                     scanf("%c",&answer);
-                    if(answer=='n' || answer=='n')
+                    if(answer=='y' || answer=='Y')
                     {
-                        printf("Epileksate na svhsete to Sudoku.\n");
+                        printf("You chose to delete the loaded Sudoku!.\n");
                         erase_Sudoku(Sudoku);
                         is_empty=1;
                         is_saved=1;
                     }
                     else
                     {
-                        printf("Epileksate na mh svhsete to Sudoku");
+                        printf("You have chosen not to delete loaded Sudoku.");
                     }
                     answer='3';
                 }
@@ -814,19 +814,19 @@ int main()
             {
                 if(!is_saved)
                 {
-                    printf("Yparxei fortwmeno Sudoku pou den exei apo8hkeutei.\n8elete na to antikatasthete kai na dhmiourghhsetai allo?\nAn 8elete na to antikatasthsetai pathste 'n' h 'N' kai otidhpote allo gia oxi.\n");
+                    printf("There is a loaded Sudoku.\nDo you want to replace it?.\nInsert 'y' or 'Y' for yes and anything else for no.\n");
                     fflush(stdin);
                     scanf("%c",&answer);
-                    if(answer=='n' || answer=='N')
+                    if(answer=='y' || answer=='Y')
                     {
-                        printf("Epileksate na svhsetai to palio kai na valetai sthn 8esh tou kainourgio.\n");
+                        printf("You have chosen to delete the loaded Sudoku.\n");
                         system("pause");
                         hand_create_Sudoku(Sudoku);
                         is_empty=0;
                     }
                     else
                     {
-                        printf("Epileksate na mh svhsete to palio.\n");
+                        printf("You chose not to delete the loaded Sudoku.\n");
                         system("pause");
                     }
                     answer='4';
@@ -842,12 +842,12 @@ int main()
             {
                 if(!is_saved)
                 {
-                    printf("Yparxei fortwmeno Sudoku pou den exei apo8hkeutei.\n8elete na to antikatasthete kai na dhmiourghhsetai allo?\nAn 8elete na to antikatasthsetai pathste 'n' h 'N' kai otidhpote allo gia oxi.\n");
+                    printf("There is a loaded Sudoku.\nDo you want to replace it?.\nInsert 'y' or 'Y' for yes and anything else for no.\n");
                     fflush(stdin);
                     scanf("%c",&answer);
-                    if(answer=='n' || answer=='N')
+                    if(answer=='y' || answer=='Y')
                     {
-                        printf("Epileksate na svhhstei to palio fortwmeno Sudoku\n;");
+                        printf("You have chosen to delete the loaded Sudoku.\n");
                         system("pause");
                         system("cls");
                         auto_create_Sudoku(Sudoku);
@@ -855,7 +855,7 @@ int main()
                     }
                     else
                     {
-                        printf("Epileksate na mh svhsete to palio.\n");
+                        printf("You chose not to delete the loaded Sudoku.\n");
                         system("pause");
                     }
                     answer='5';
@@ -871,7 +871,7 @@ int main()
             {
                 if(is_empty)
                 {
-                    printf("Den uparxei kapoio fortwmeno Sudoku.\nParakalw fortwste ena prwta kai meta tropopoihste to.\n");
+                    printf("There is no loaded Sudoku, please load a Sudoku first in order to handle it.\n");
                     system("pause");
                     system("cls");
                 }
@@ -887,7 +887,7 @@ int main()
             {
                 if(is_empty)
                 {
-                    printf("Den uparxei kapoio fortwmeno Sudoku.\nParakalw fortwste ena prwta kai meta prospa8hste na to lusete.\n");
+                    printf("There is no loaded Sudoku, please load a Sudoku first in order to solve it.\n");
                     system("pause");
                     system("cls");
                 }
@@ -902,7 +902,7 @@ int main()
             {
                  if(is_empty)
                  {
-                     printf("To fortwmeno Sudoku einai adeio.\nParakalw fortwste ena Sudoku prwta kai meta epilekste thn automath apilush\n");
+                     printf("There is no loaded Sudoku, please load a Sudoku first in order to automatically solve it.");
                      system("pause");
                      system("cls");
                  }
@@ -918,15 +918,15 @@ int main()
             {
                 if(is_saved)
                 {
-                    printf("Epileksate thn eksodo, to programma 8a termatistei molis pathsete kati\n");
+                    printf("The program will shutdown as soon as you press any key\n");
                     system("pause");
                 }
                 else
                 {
-                    printf("To Sudoku pou einai fortwmeno den exei apo8hkeutei.\n8elete na sunexisete me ton termatismo?\nPathste 'n' h 'N' gia na termatisei to programma\nkai otidhpote allo gia na mh termathsei\n");
+                    printf("The loaded Sudoku has not been saved.\nDo you want to continue exiting?\nPress 'y' or 'Y' to exit the program\nor anything else not to.\n");
                     fflush(stdin);
                     scanf("%c",&answer);
-                    if(answer=='n' || answer=='N')
+                    if(answer=='y' || answer=='Y')
                     {
                         answer='9';
                     }
