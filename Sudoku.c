@@ -4,6 +4,7 @@
 #include <string.h>
 
 // This function implements "Print Menu" and "Get Valid Answer from User" actions
+int show_menu()
  {
      char answer,error=0;
      do
